@@ -13,7 +13,7 @@ Simplifiez vos trajets vers l'université avec UniRide, rendant vos déplacement
 ## Pré-requis
 
 - Assurez-vous d'avoir Docker et Docker Compose installés sur votre système. 
-- Vous pouvez les télécharger depuis le [site officiel de Docker](https://www.docker.com/get-started).
+  - Vous pouvez les télécharger depuis le [site officiel de Docker](https://www.docker.com/get-started). Si vous êtes nouveau dans l'utilisation de Docker, consultez la [documentation d'installation de Docker](https://docs.docker.com/get-docker/).
 
 
 ## Installation et Configuration
@@ -21,13 +21,16 @@ Simplifiez vos trajets vers l'université avec UniRide, rendant vos déplacement
 2. Ouvrez le projet dans votre éditeur de texte préféré.
 3. Ajoutez vos certificats dans le dossier `/certs` à la racine.
 4. Modifiez le fichier `uniride-backend-template.env` avec vos variables d'environnement.
-5. Modifiez le fichier `uniride-db-template.env` si vous utilisez un service de base de données.
-6. Modifiez le fichier `uniride-pgadmin-template.env` si vous souhaitez avoir une interface web pour voir vos données.
-7. Ouvrez un terminal et placez-vous au niveau du dossier cloné.
-8. Tapez la commande : `docker-compose up --build`.
-9. Une fois le déploiement terminé, vous pouvez accéder aux services UniRide via vos navigateurs préférés.
-10. Maintenant, UniRide est opérationnel, simplifiant vos déplacements universitaires. Profitez d'une expérience de covoiturage plus simple, économique et conviviale !
-11. Si vous utilisez des certificats auto-signés (<span style="color:red">!!! EN LOCAL UNIQUEMENT !!!</span>), vous devrez autoriser l'accès au site "non protégé" dans votre navigateur. Ouvrez la console de développement (console dev) et cliquez sur l'URL du backend pour autoriser l'accès.
+5. Modifiez le fichier `uniride-frontend-template.env` avec vos variables d'environnement.
+6. Modifiez le fichier `uniride-db-template.env` si vous utilisez un service de base de données.
+7. Modifiez le fichier `uniride-pgadmin-template.env` si vous souhaitez avoir une interface web pour voir vos données.
+8. Supprimez le fichier `.gitkeep` du répertoire `postgres-data`.
+9. Ouvrez un terminal et placez-vous au niveau du dossier cloné.
+10. Tapez la commande : `docker-compose up --build`.
+11. Une fois le déploiement terminé, vous pouvez accéder aux services UniRide via vos navigateurs préférés.
+12. Maintenant, UniRide est opérationnel, simplifiant vos déplacements universitaires. Profitez d'une expérience de covoiturage plus simple, économique et conviviale !
+13. Si vous utilisez des certificats auto-signés (<span style="color:red">!!! EN LOCAL UNIQUEMENT !!!</span>), autorisez l'accès au site "non protégé" dans votre navigateur en ouvrant la console de développement et en cliquant sur l'URL du backend.
+
 
 ## Explications des Services
 
@@ -42,8 +45,9 @@ Simplifiez vos trajets vers l'université avec UniRide, rendant vos déplacement
 
 1. **Dossier `certs`**: Contient les certificats utilisés par les parties backend et frontend d'UniRide.
 2. **Dossier `documents`**: Stocke tous les documents fournis par les utilisateurs d'UniRide.
-3. **Fichier `schema_uniride.sql`**: Crée la base de données UniRide en définissant la structure et les relations entre les tables.
-4. **Fichier `insertion_uniride.sql`**: Gère l'insertion initiale des données dans la base de données UniRide.
+3. **Dossier `postgres-data` **: Sauvegarde votre base de données localement même si votre docker redémarre.
+4. **Fichier `schema_uniride.sql`**: Crée la base de données UniRide en définissant la structure et les relations entre les tables.
+5. **Fichier `insertion_uniride.sql`**: Gère l'insertion initiale des données dans la base de données UniRide.
 
 
 Ces dossiers et fichiers jouent des rôles spécifiques dans le fonctionnement et la gestion des données d'UniRide, contribuant ainsi à la robustesse et à la performance de l'application.
