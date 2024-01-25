@@ -1,0 +1,68 @@
+#Developpement docker-compose file by Uniride
+version: '3.8'
+
+services:
+
+#This container is used to get the frontend
+  uniride_frontend:
+    container_name: uniride_frontend
+    image: uniride1/uniride_front #automatically latest
+    restart: always
+    ports:
+      - "4200:4200"
+    depends_on:
+      - uniride_backend
+    volumes:
+      - ./certs/:/app/certs
+
+#This container is used to get the backend
+  uniride_backend:
+    container_name: uniride_backend
+    image: uniride1/uniride_back #automatically latest
+    restart: always
+    #This volume is used to store the uploaded files and the certificates
+    volumes:
+      - ./documents/:/usr/src/app/documents
+      - ./certs/:/usr/src/app/uniride_sme/certs
+    depends_on:
+      - uniride_redis
+      - uniride_db
+    ports:
+      - "5050:5050"
+    env_file: #This file contains the environment variables, cause the image is not built with them
+      - ./env/uniride-backend-template.env
+
+#This container is used to add cache to the backend
+  uniride_redis:
+    container_name: uniride_redis
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+#This container is used to store the data
+  uniride_db:
+    container_name: uniride_db
+    image: postgres
+    restart: always
+    env_file:
+      - ./env/uniride-db-template.env
+    volumes:
+      - "./db-script/schema_uniride.sql:/docker-entrypoint-initdb.d/script.sql" #init script
+      - "./db-script/insertion_uniride.sql:/docker-entrypoint-initdb.d/zscript.sql" #insert default data
+      - ./postgres-data:/var/lib/postgresql/data #data storage, to keep the data after the container is stopped (need to create the folder before if not exist)
+
+#This container is used to get the pgadmin
+  uniride_pgadmin:
+    container_name: uniride_pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - uniride_db
+    env_file:
+      - ./env/uniride-pgadmin-template.env
+
+x-environment:
+  COMPOSE_PROJECT_NAME: uniride
